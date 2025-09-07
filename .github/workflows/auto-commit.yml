@@ -1,0 +1,33 @@
+name: Auto Commit
+
+on:
+  schedule:
+    - cron: "0 */2 * * *"   # Runs every 2 hours (UTC)
+  workflow_dispatch:         # Allow manual trigger
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Make Random Number of Commits
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          # Pick a random number between 5 and 15 commits
+          NUM=$(( ( RANDOM % 11 ) + 5 ))
+
+          for i in $(seq 1 $NUM)
+          do
+            timestamp=$(date +"%Y-%m-%d %H:%M:%S")
+            echo "Commit #$i at $timestamp" >> activity.log
+            git add activity.log
+            git commit -m "auto: commit #$i at $timestamp"
+          done
+
+          git push
