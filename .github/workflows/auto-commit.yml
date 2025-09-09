@@ -2,8 +2,8 @@ name: Auto Commit
 
 on:
   schedule:
-    - cron: "0 */2 * * *"   # Runs every 2 hours (UTC)
-  workflow_dispatch:         # Allow manual trigger
+  ##  - cron: "0 */2 * * *"   # Runs every 2 hours (UTC)
+ ## workflow_dispatch:         # Allow manual trigger
 
 jobs:
   build:
